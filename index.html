@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>yuanmei</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+<script src="./static/layui/layui.js"></script>
+<script>
+      // import  layui from '../static/layui/layui.all.js'
+    // import 'jquery';
+    // import {layui} from '../static/layui/layui.js';
+
+    layui.use(['element', 'layer', 'jquery','laydate','laypage','table'], function() {
+        // var _index = $('.tab_content>div').index();
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        //监听导航点击
+        // element.on('nav(demo)', function(elem) {
+          
+        // });
+        //日期范围
+        //日期时间范围
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test10',
+            type: 'datetime',
+            range: true
+        });
+        var laypage = layui.laypage,layer = layui.layer;
+        //完整功能
+        laypage.render({
+            elem: 'demo7'
+            ,count: 100
+            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            ,jump: function(obj){
+            }
+        });
+//   data:[{
+//         id:'1',
+//         username:'产品1',
+//         sex:'男',
+//         city:'汕头',
+//         sign:'谦哥'
+//     }]
+        var table = layui.table;
+
+        //方法级渲染
+        table.render({
+            elem: '#LAY_table_user',
+            cellMinWidth: 80,
+            height: 'full-200',
+            limit:30,
+            data:[
+                {
+                    productInfor:'衣服',
+                    salesTotaled:'100',
+                    totalIcans:'100',
+                    name:'谦哥',
+                    time:'2006-06-1',
+                    logistics:'顺丰',
+                    state:'运输中',
+                    operation:'无'
+                },
+                {
+                    productInfor:'鞋子',
+                    salesTotaled:'25',
+                    totalIcans:'25',
+                    name:'镇哥',
+                    time:'2006-06-1',
+                    logistics:'邮政',
+                    state:'运输中',
+                    operation:'无'
+                },
+                {
+                    productInfor:'女性内衣',
+                    salesTotaled:'9.9',
+                    totalIcans:'9.9',
+                    name:'权哥',
+                    time:'2006-06-1',
+                    logistics:'中通',
+                    state:'运输中',
+                    operation:'无'
+                }
+            ]
+            ,cols: [[
+                {checkbox: true, fixed: true}
+                ,{field:'productInfor', title: '产品信息',fixed: true }
+                ,{field:'salesTotaled', title: '销售总计',sort: true}
+                ,{field:'totalIcans', title: '贷款总计', sort: true}
+                ,{field:'name', title: '收件人[国家]'}
+                ,{field:'time', title: '时间' ,sort: true, }
+                ,{field:'logistics', title: '物流方式'}
+                ,{field:'state', title: '状态'}
+                ,{field:'operation', title: '操作'}
+            ]]
+            ,id: 'testReload'
+            ,page: true
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoReload = $('#demoReload');
+
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            id: demoReload.val()
+                        }
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+<style scoped>
+#selectTypeBox .el-tree{
+    background-color: #409DFE;
+}
+</style>
